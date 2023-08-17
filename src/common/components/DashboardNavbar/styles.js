@@ -10,7 +10,7 @@ function navbar(theme, ownerState) {
   return {
     boxShadow: transparentNavbar || absolute ? "none" : navbarBoxShadow,
     backdropFilter: transparentNavbar || absolute ? "none" : `saturate(200%) blur(${pxToRem(30)})`,
-    backgroundColor:"#ffffff",
+    backgroundColor:white.main,
       // transparentNavbar || absolute
       //   ? `${transparent.main} !important`
       //   : rgba(darkMode ? background.default : white.main, 0.8),
