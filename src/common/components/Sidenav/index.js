@@ -16,6 +16,8 @@ import {
   setTransparentSidenav,
   setWhiteSidenav,
 } from "context";
+import {navLogo} from "../../../config/images";
+import Grid from "@mui/material/Grid";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
@@ -100,15 +102,15 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <Icon sx={{ fontWeight: "bold" }}>close</Icon>
           </MDTypography>
         </MDBox>
+        <MDBox sx={{width:"100%",height:"100px"}} >
+          <img src={navLogo} style={{"width": "100%"}}  alt=""/>
+        </MDBox>
         <MDBox component={NavLink} to="/" display="flex" alignItems="center">
           {brand && <MDBox component="img" src={brand} alt="Brand" width="2rem" />}
           <MDBox
             width={!brandName && "100%"}
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
           >
-            <MDTypography component="h6" variant="button" fontWeight="medium" color={textColor}>
-              {brandName}
-            </MDTypography>
           </MDBox>
         </MDBox>
       </MDBox>
@@ -131,5 +133,6 @@ Sidenav.propTypes = {
   brandName: PropTypes.string.isRequired,
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
+
 
 export default Sidenav;

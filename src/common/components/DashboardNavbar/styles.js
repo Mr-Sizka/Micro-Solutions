@@ -2,7 +2,7 @@ function navbar(theme, ownerState) {
   const { palette, boxShadows, functions, transitions, breakpoints, borders } = theme;
   const { transparentNavbar, absolute, light, darkMode } = ownerState;
 
-  const { dark, white, text, transparent, background } = palette;
+  const { dark, white, text, transparent, background , gradients} = palette;
   const { navbarBoxShadow } = boxShadows;
   const { rgba, pxToRem } = functions;
   const { borderRadius } = borders;
@@ -29,14 +29,14 @@ function navbar(theme, ownerState) {
       return color;
     },
     top: absolute ? 0 : pxToRem(12),
-    minHeight: pxToRem(75),
+    minHeight: pxToRem(20),
     display: "grid",
     alignItems: "center",
     borderRadius: borderRadius.xl,
-    paddingTop: pxToRem(8),
-    paddingBottom: pxToRem(8),
-    paddingRight: absolute ? pxToRem(8) : 0,
-    paddingLeft: absolute ? pxToRem(16) : 0,
+    paddingTop: pxToRem(2),
+    paddingBottom: pxToRem(2),
+    paddingRight: absolute ? pxToRem(2) : 0,
+    paddingLeft: absolute ? pxToRem(2) : 0,
 
     "& > *": {
       transition: transitions.create("all", {
@@ -52,7 +52,7 @@ function navbar(theme, ownerState) {
 
       [breakpoints.up("sm")]: {
         minHeight: "auto",
-        padding: `${pxToRem(4)} ${pxToRem(16)}`,
+        padding: `${pxToRem(2)} ${pxToRem(8)}`,
       },
     },
   };
@@ -117,4 +117,22 @@ const navbarMobileMenu = ({ breakpoints }) => ({
   },
 });
 
-export { navbar, navbarContainer, navbarRow, navbarIconButton, navbarMobileMenu };
+const navbarButtonContainer = () => ({
+  display:"flex",
+  alignItems: "center",
+  justifyContent:"end",
+  width:'100%',
+  height:'100%',
+});
+
+const navbarSearchField = () => ({
+  borderRadius:'30px',
+  display:"flex",
+  justifyContent:"center",
+  alignItems:"center",
+  border: "none",
+  padding:"5px 15px 5px 5px",
+  backgroundColor:"#8EB53E24",
+});
+
+export { navbar, navbarContainer, navbarRow, navbarIconButton, navbarMobileMenu, navbarButtonContainer, navbarSearchField };

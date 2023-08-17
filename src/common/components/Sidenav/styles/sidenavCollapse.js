@@ -53,17 +53,15 @@ function collapseIconBox(theme, ownerState) {
   const { palette, transitions, borders, functions } = theme;
   const { transparentSidenav, whiteSidenav, darkMode, active } = ownerState;
 
-  const { white, dark } = palette;
+  const { white, dark ,micro} = palette;
   const { borderRadius } = borders;
   const { pxToRem } = functions;
 
   return {
     minWidth: pxToRem(32),
     minHeight: pxToRem(32),
-    color:
-      (transparentSidenav && !darkMode && !active) || (whiteSidenav && !active)
-        ? dark.main
-        : dark.main,
+    color:micro.active,
+
     borderRadius: borderRadius.md,
     display: "grid",
     placeItems: "center",

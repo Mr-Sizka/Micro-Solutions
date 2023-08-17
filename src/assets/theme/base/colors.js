@@ -3,6 +3,10 @@ const colors = {
     default: "#f0f2f5",
   },
 
+  micro: {
+    active : "#8EB53E"
+  },
+
   text: {
     main: "#7b809a",
     focus: "#7b809a",
@@ -79,6 +83,11 @@ const colors = {
     primary: {
       main: "#EC407A",
       state: "#D81B60",
+    },
+
+    micro: {
+      main: "#8EB53E24",
+      state: "#8EB53E24"
     },
 
     secondary: {

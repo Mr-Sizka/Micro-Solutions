@@ -7,17 +7,23 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
 import MDBox from "common/components/MDBox";
-import Breadcrumbs from "common/components/DashboardNavbar/Breadcrumbs";
 import {
   navbar,
   navbarContainer,
   navbarRow,
   navbarIconButton,
   navbarMobileMenu,
+  navbarButtonContainer, navbarSearchField,
 } from "common/components/DashboardNavbar/styles";
 import { useMaterialUIController, setTransparentNavbar, setMiniSidenav } from "context";
 import MDButton from "common/components/MDButton";
 import {RemoveItem} from "common/utils/Storage/Storage";
+import Typography from "@mui/material/Typography";
+import {Mail, MailOutlined, NotificationsOutlined, Search} from "@mui/icons-material";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import {Input} from "@mui/material";
+import Badge from "@mui/material/Badge";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -82,7 +88,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
   );
 
   // Styles for the navbar icons
-  const iconsStyle = ({ palette: { dark, white, text }, functions: { rgba } }) => ({
+  const iconsStyle = ({ palette: { dark, white, text, micro }, functions: { rgba } }) => ({
     color: () => {
       let colorValue = light || darkMode ? white.main : dark.main;
 
@@ -104,11 +110,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
             <MDBox color={light ? "white" : "inherit"}>
-              <IconButton sx={navbarIconButton} size="large" disableRipple onClick={handleOpenMenu}>
-                <Icon sx={iconsStyle}>account_circle</Icon>
-              </IconButton>
               <IconButton
-                size="small"
+                size="large"
                 disableRipple
                 color="inherit"
                 sx={navbarMobileMenu}
@@ -118,10 +121,31 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
-              {renderMenu()}
+            </MDBox>
+              <IconButton sx={navbarIconButton} size="large" disableRipple onClick={handleOpenMenu}>
+                <Icon sx={iconsStyle} fontSize="large">account_circle</Icon>
+              </IconButton>
+            <MDBox>
+              <Typography fontSize={"x-large"} fontWeight={700} lineHeight={0.8}>Jeewantha</Typography>
+              <Typography fontSize={"small"} color={"secondary"}>Admin</Typography>
             </MDBox>
           </MDBox>
         )}
+        <MDBox sx={navbarButtonContainer}>
+          <MDBox sx={navbarSearchField}>
+            <Search fontSize={"medium"}/>
+            <Input
+                placeholder={"Search"}
+                variant={"standard"}
+            ></Input>
+          </MDBox>
+          <IconButton sx={navbarIconButton} size="large">
+            <Badge color="error" overlap="circular" badgeContent="1"><NotificationsOutlined/></Badge>
+          </IconButton>
+          <IconButton sx={navbarIconButton} size="large">
+            <Badge color="error" size={"small"} overlap="circular" badgeContent="1"><MailOutlined /></Badge>
+          </IconButton>
+        </MDBox>
       </Toolbar>
     </AppBar>
   );
