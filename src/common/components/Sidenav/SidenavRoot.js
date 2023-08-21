@@ -32,7 +32,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
       marginBottom: transparentSidenav ? 0 : "inherit",
       left: "0",
       width: sidebarWidth,
-      height:"100%",
+      height:"100vh",
       transform: "translateX(0)",
       transition: transitions.create(["width", "background-color"], {
         easing: transitions.easing.sharp,

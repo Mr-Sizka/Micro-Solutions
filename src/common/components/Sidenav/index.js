@@ -17,12 +17,12 @@ import {
   setWhiteSidenav,
 } from "context";
 import {navLogo} from "../../../config/images";
-import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import {navbarIconButton} from "../DashboardNavbar/styles";
 import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import {Container} from "@mui/material";
+import {RemoveItem} from "../../utils/Storage/Storage";
+import MDButton from "../MDButton";
+import {InfoRounded, Logout} from "@mui/icons-material";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
@@ -32,27 +32,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
 
-  let textColor = "dark";
-
-  if (transparentSidenav || (whiteSidenav && !darkMode)) {
-    textColor = "dark";
-  } else if (whiteSidenav && darkMode) {
-    textColor = "inherit";
-  }
-
   const closeSidenav = () => setMiniSidenav(dispatch, true);
-
-  /*const iconsStyle = ({ palette: { dark, white, text, micro }, functions: { rgba } }) => ({
-    color: () => {
-      let colorValue = light || darkMode ? white.main : dark.main;
-
-      if (transparentNavbar && !light) {
-        colorValue = darkMode ? rgba(text.main, 0.6) : text.main;
-      }
-
-      return colorValue;
-    },
-  });*/
 
   useEffect(() => {
     function handleResize() {
@@ -128,7 +108,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       variant="permanent"
       ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
     >
-      <MDBox pt={3} pb={1} px={4} textAlign="center">
+      <MDBox pt={3} pb={1} px={4} textAlign="center" sx={{height: windowDimensions.width>=680?"20vh":"30vh"}}>
         <MDBox
           display={{ xs: "block", xl: "none" }}
           position="absolute"
@@ -145,7 +125,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         <MDBox sx={{width:"100%",height:"100px"}} >
           <img src={navLogo} style={{"width": "100%"}}  alt=""/>
         </MDBox>
-        {windowDimensions.width<680? <MDBox sx={{display:"flex"}}><IconButton sx={navbarIconButton} size="large" disableRipple >
+        {windowDimensions.width<=680? <MDBox sx={{display:"flex"}}><IconButton sx={navbarIconButton} size="large" disableRipple >
           <Icon  fontSize="large">account_circle</Icon>
         </IconButton>
           <MDBox sx={{paddingTop:"10px"}}>
@@ -162,8 +142,34 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           </MDBox>
         </MDBox>
       </MDBox>
-      <Divider light />
-      <List>{renderRoutes}</List>
+      <Divider sx={{height:"3px"}} />
+      <List sx={{height:'60vh',overflow:"auto"}}>{renderRoutes}</List>
+      <MDBox sx={{height:'20vh',display:'flex',flexDirection:"column",justifyContent:"end",alignItems:'center'}} pb={2}>
+      <Divider sx={{height:"3px"}}/>
+        <MDButton
+            variant="outlined"
+            color={"secondary"}
+            sx={{background:'none',border:'none'}}
+        >
+          <InfoRounded/>
+          Information
+        </MDButton>
+        <MDButton
+            onClick={()=> {
+              RemoveItem("login-token");
+              RemoveItem("login-remember");
+              window.location.reload();
+            }}
+            rel="noreferrer"
+            variant="outlined"
+            color={"error"}
+            sx={{background:'none',border:'none'}}
+        >
+          <Logout/>
+          Logout
+        </MDButton>
+      </MDBox>
+
     </SidenavRoot>
   );
 }
