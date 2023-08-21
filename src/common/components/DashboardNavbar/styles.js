@@ -64,12 +64,14 @@ const navbarContainer = ({ breakpoints }) => ({
   justifyContent: "space-between",
   pt: 0.5,
   pb: 0.5,
+  width:"100%",
 
   [breakpoints.up("md")]: {
     flexDirection: "row",
     alignItems: "center",
     paddingTop: "0",
     paddingBottom: "0",
+    width:"100%",
   },
 });
 
@@ -79,14 +81,10 @@ const navbarRow = ({ breakpoints }, { isMini }) => ({
   justifyContent: "space-between",
   width: "100%",
 
-  [breakpoints.up("md")]: {
-    justifyContent: isMini ? "space-between" : "stretch",
-    width: isMini ? "100%" : "max-content",
-  },
 
   [breakpoints.up("xl")]: {
     justifyContent: "stretch !important",
-    width: "max-content !important",
+    width: "max-content%",
   },
 });
 
@@ -111,6 +109,7 @@ const navbarIconButton = ({ typography: { size }, breakpoints }) => ({
 const navbarMobileMenu = ({ breakpoints }) => ({
   display: "inline-block",
   lineHeight: 0,
+  width:"100%",
 
   [breakpoints.up("xl")]: {
     display: "none",

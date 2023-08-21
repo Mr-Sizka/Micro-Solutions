@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import { useLocation, NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import List from "@mui/material/List";
@@ -18,12 +18,19 @@ import {
 } from "context";
 import {navLogo} from "../../../config/images";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import {navbarIconButton} from "../DashboardNavbar/styles";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import {Container} from "@mui/material";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } = controller;
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
 
   let textColor = "dark";
 
@@ -34,6 +41,39 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   }
 
   const closeSidenav = () => setMiniSidenav(dispatch, true);
+
+  /*const iconsStyle = ({ palette: { dark, white, text, micro }, functions: { rgba } }) => ({
+    color: () => {
+      let colorValue = light || darkMode ? white.main : dark.main;
+
+      if (transparentNavbar && !light) {
+        colorValue = darkMode ? rgba(text.main, 0.6) : text.main;
+      }
+
+      return colorValue;
+    },
+  });*/
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+    {
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, [windowDimensions]);
+
+  function getWindowDimensions() {
+    const {
+      innerWidth: width,
+      innerHeight: height
+    } = window;
+    return {
+      width,
+      height
+    };
+  }
 
   useEffect(() => {
     // A function that sets the mini state of the sidenav.
@@ -105,6 +145,14 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         <MDBox sx={{width:"100%",height:"100px"}} >
           <img src={navLogo} style={{"width": "100%"}}  alt=""/>
         </MDBox>
+        {windowDimensions.width<680? <MDBox sx={{display:"flex"}}><IconButton sx={navbarIconButton} size="large" disableRipple >
+          <Icon  fontSize="large">account_circle</Icon>
+        </IconButton>
+          <MDBox sx={{paddingTop:"10px"}}>
+            <Typography fontSize={"large"} fontWeight={700} lineHeight={0.8} sx={{marginTop:"8px"}}>Jeewantha</Typography>
+            <Typography fontSize={"x-small"} color={"secondary"} sx={{textAlign:"left"}}>Admin</Typography>
+          </MDBox></MDBox>:<></>
+        }
         <MDBox component={NavLink} to="/" display="flex" alignItems="center">
           {brand && <MDBox component="img" src={brand} alt="Brand" width="2rem" />}
           <MDBox

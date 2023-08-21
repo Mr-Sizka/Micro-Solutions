@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,28 +9,49 @@ import Icon from "@mui/material/Icon";
 import MDBox from "common/components/MDBox";
 import {
   navbar,
+  navbarButtonContainer,
   navbarContainer,
-  navbarRow,
   navbarIconButton,
   navbarMobileMenu,
-  navbarButtonContainer, navbarSearchField,
+  navbarRow,
+  navbarSearchField,
 } from "common/components/DashboardNavbar/styles";
-import { useMaterialUIController, setTransparentNavbar, setMiniSidenav } from "context";
+import {setMiniSidenav, setTransparentNavbar, useMaterialUIController} from "context";
 import MDButton from "common/components/MDButton";
 import {RemoveItem} from "common/utils/Storage/Storage";
 import Typography from "@mui/material/Typography";
-import {Mail, MailOutlined, NotificationsOutlined, Search} from "@mui/icons-material";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
+import {MailOutlined, NotificationsOutlined, Search} from "@mui/icons-material";
 import {Input} from "@mui/material";
 import Badge from "@mui/material/Badge";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, darkMode } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+    {
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, [windowDimensions]);
+
+  function getWindowDimensions() {
+    const {
+      innerWidth: width,
+      innerHeight: height
+    } = window;
+    return {
+      width,
+      height
+    };
+  }
 
   useEffect(() => {
     // Setting the navbar type
@@ -121,31 +142,36 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
-            </MDBox>
-              <IconButton sx={navbarIconButton} size="large" disableRipple onClick={handleOpenMenu}>
-                <Icon sx={iconsStyle} fontSize="large">account_circle</Icon>
-              </IconButton>
+            </MDBox>{windowDimensions.width>680? <><IconButton sx={navbarIconButton} size="large" disableRipple onClick={handleOpenMenu}>
+            <Icon sx={iconsStyle} fontSize="large">account_circle</Icon>
+          </IconButton>
             <MDBox>
-              <Typography fontSize={"x-large"} fontWeight={700} lineHeight={0.8}>Jeewantha</Typography>
+              <Typography fontSize={"large"} fontWeight={700} lineHeight={0.8} sx={{marginTop:"8px"}}>Jeewantha</Typography>
               <Typography fontSize={"small"} color={"secondary"}>Admin</Typography>
-            </MDBox>
+            </MDBox></>:<></>
+          }
+          <MDBox sx={navbarButtonContainer}>
+            {windowDimensions.width>680? <MDBox sx={navbarSearchField}>
+              <Search fontSize={"medium"}/>
+              <Input
+                  sx={{'&:after': {
+                      borderBottom: `2px solid #8EB53E`,
+                    }}}
+                  placeholder={"Search"}
+                  variant={"standard"}
+              ></Input>
+            </MDBox>:<></>}
+            <IconButton sx={navbarIconButton} size={windowDimensions.width>680? "large":"medium"}>
+              <Badge color="error" overlap="circular" badgeContent="1"><NotificationsOutlined/></Badge>
+            </IconButton>
+            <IconButton sx={navbarIconButton} size={windowDimensions.width>680? "large":"medium"}>
+              <Badge color="error" size={"small"} overlap="circular" badgeContent="1"><MailOutlined /></Badge>
+            </IconButton>
+          </MDBox>
           </MDBox>
         )}
-        <MDBox sx={navbarButtonContainer}>
-          <MDBox sx={navbarSearchField}>
-            <Search fontSize={"medium"}/>
-            <Input
-                placeholder={"Search"}
-                variant={"standard"}
-            ></Input>
-          </MDBox>
-          <IconButton sx={navbarIconButton} size="large">
-            <Badge color="error" overlap="circular" badgeContent="1"><NotificationsOutlined/></Badge>
-          </IconButton>
-          <IconButton sx={navbarIconButton} size="large">
-            <Badge color="error" size={"small"} overlap="circular" badgeContent="1"><MailOutlined /></Badge>
-          </IconButton>
-        </MDBox>
+
+
       </Toolbar>
     </AppBar>
   );
