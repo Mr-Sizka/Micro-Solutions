@@ -147,7 +147,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       <MDBox sx={{height:'20vh',display:'flex',flexDirection:"column",justifyContent:"end",alignItems:'center'}} pb={2}>
       <Divider sx={{height:"3px"}}/>
         <MDButton
-            variant="outlined"
+            variant="text"
             color={"secondary"}
             sx={{background:'none',border:'none'}}
         >
@@ -161,7 +161,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               window.location.reload();
             }}
             rel="noreferrer"
-            variant="outlined"
+            variant="text"
             color={"error"}
             sx={{background:'none',border:'none'}}
         >
